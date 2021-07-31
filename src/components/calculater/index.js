@@ -10,7 +10,7 @@ const tooltip = (text) => {
 
 const input = (defaultValue, tag, text, postfix, onChange) => {
   return (
-    <InputGroup className="my-5">
+    <InputGroup className="my-3">
       <InputGroup.Addon>{tag}</InputGroup.Addon>
       <Whisper placement="right" trigger="hover" speaker={tooltip(text)}>
         <InputNumber
@@ -44,7 +44,7 @@ export default function Calculater() {
   }, [tas, ws]);
 
   return (
-    <div className="flex-col justify-around items-center p-10">
+    <div className="flex-col justify-around items-center py-5">
       <ResultScreen
         res={[
           {
