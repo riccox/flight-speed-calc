@@ -9,5 +9,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
+@font-face {
+  font-family: 'Open-24-Display-ST-LED';
+  src:
+    url('style/font/Open-24-Display-St.ttf') format('ttf'),
+    url("style/font/Open-24-Display-St.ttf");
 }

@@ -5,8 +5,8 @@ export default function Disclaimers({ isShow, confirm }) {
     window.close();
   };
   return (
-    <div>
-      <Modal backdrop="static" show={isShow} size="sm">
+    <div className="">
+      <Modal dialogClassName="relative top-40" backdrop="static" show={isShow} size="sm">
         <Modal.Header closeButton={false} onHide={cancel}>
           <Modal.Title>
             <Icon

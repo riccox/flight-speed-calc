@@ -1,5 +1,18 @@
 import { create, all, evaluate } from "mathjs";
 
+const getWa = (wd, mh) => {
+  let rt = evaluate(`${parseFloat(wd)} - ${parseFloat(mh)}`);
+
+  // 风角范围 0~±180°
+  if (rt > 180) {
+    return evaluate(`${parseFloat(rt)} - 360`);
+  } else if (rt < -180) {
+    return evaluate(`${parseFloat(rt)} + 360`);
+  } else {
+    return rt;
+  }
+};
+
 const getGs = (tas, ws, wa) => {
   return evaluate(
     `${parseFloat(tas)} + ${parseFloat(ws)} * sin(90 deg - ${parseFloat(
@@ -30,4 +43,4 @@ const radian2angle = (r) => {
   return (180 * r) / Math.PI;
 };
 
-export default { getDa, getGs, getDaMax };
+export default { getDa, getGs, getDaMax,getWa };
