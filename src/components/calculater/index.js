@@ -1,9 +1,18 @@
 import React, { useState, useEffect } from "react";
 import calc from "../../lib/calc";
-import Result from "../result";
 import ResultScreen from "./resultScreen";
-import { Input, InputGroup, InputNumber, Whisper, Tooltip } from "rsuite";
-import { useCounter } from "ahooks";
+import {
+  InputGroup,
+  InputNumber,
+  Whisper,
+  Tooltip,
+  Radio,
+  RadioGroup,
+} from "rsuite";
+
+import { evaluate, hasNumericValue } from "mathjs";
+
+import { useToggle } from "ahooks";
 const tooltip = (text) => {
   return <Tooltip>{text}</Tooltip>;
 };
@@ -29,6 +38,9 @@ export default function Calculater() {
   const [tas, setTas] = useState(0);
   const [ws, setWs] = useState(0);
   const [mh, setMh] = useState(0);
+
+  const [wdType, setWdType] = useToggle("nav", "met");
+  const [wdVal, setWdVal] = useState(0);
   const [wd, setWd] = useState(0);
 
   const [gs, setGs] = useState(0);
@@ -43,6 +55,9 @@ export default function Calculater() {
     setDaMax(calc.getDaMax(tas, ws));
   }, [tas, ws]);
 
+  useEffect(() => {
+    setWd(wdType == "nav" ? wdVal : evaluate(`${wdVal} + 180`));
+  }, [wdType, wdVal]);
   return (
     <div className="flex-col justify-around items-center py-5">
       <ResultScreen
@@ -62,10 +77,55 @@ export default function Calculater() {
         ]}
       ></ResultScreen>
       <div className="flex-col justify-between items-center">
-        {input(0, "TAS", "输入真空速", "Kts", (v) => setTas(v))}
-        {input(0, "WS", "输入风速", "Kts", (v) => setWs(v))}
-        {input(0, "MH", "输入当前磁航向", "°", (v) => setMh(v))}
-        {input(0, "WD", "输入当前航行风向", "°", (v) => setWd(v))}
+        {input(0, "TAS", "输入真空速", "Kts", (v) =>
+          setTas(hasNumericValue(v) ? v : 0)
+        )}
+        {input(0, "WS", "输入风速", "Kts", (v) =>
+          setWs(hasNumericValue(v) ? v : 0)
+        )}
+        {input(0, "MH", "输入当前磁航向", "°", (v) =>
+          setMh(hasNumericValue(v) ? v : 0)
+        )}
+
+        <InputGroup className="my-3">
+          <InputGroup.Addon>
+            <RadioGroup
+              style={{ borderStyle: "none" }}
+              name="radioList"
+              inline
+              appearance="picker"
+              value={wdType}
+              onChange={(val) => setWdType.toggle(val)}
+            >
+              <span
+                style={{
+                  padding: "8px 2px 8px 10px",
+                  display: "inline-block",
+                  verticalAlign: "middle",
+                }}
+              >
+                WD{" "}
+              </span>
+              <Radio value="nav">航行风</Radio>
+              <Radio value="met">气象风</Radio>
+            </RadioGroup>
+          </InputGroup.Addon>
+          <Whisper
+            placement="right"
+            trigger="hover"
+            speaker={tooltip(
+              `输入当前${wdType == "nav" ? "航行" : "气象"}风向`
+            )}
+          >
+            <InputNumber
+              min={-10000}
+              max={10000}
+              defaultValue={0}
+              onChange={(v) => setWdVal(hasNumericValue(v) ? v : 0)}
+              postfix="°"
+            />
+          </Whisper>
+        </InputGroup>
       </div>
     </div>
   );
