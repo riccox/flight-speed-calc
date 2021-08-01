@@ -8,6 +8,7 @@ import {
   Tooltip,
   Radio,
   RadioGroup,
+  Toggle,
 } from "rsuite";
 
 import { evaluate, hasNumericValue } from "mathjs";
@@ -89,26 +90,15 @@ export default function Calculater() {
 
         <InputGroup className="my-3">
           <InputGroup.Addon>
-            <RadioGroup
-              style={{ borderStyle: "none" }}
-              name="radioList"
-              inline
-              appearance="picker"
-              value={wdType}
-              onChange={(val) => setWdType.toggle(val)}
-            >
-              <span
-                style={{
-                  padding: "8px 2px 8px 10px",
-                  display: "inline-block",
-                  verticalAlign: "middle",
-                }}
-              >
-                WD{" "}
-              </span>
-              <Radio value="nav">航行风</Radio>
-              <Radio value="met">气象风</Radio>
-            </RadioGroup>
+            WD
+            <Toggle
+            className="ml-2"
+              checked={wdType == "nav"}
+              onChange={(checked) => setWdType.toggle(checked ? "nav" : "met")}
+              size="md"
+              checkedChildren="航行风"
+              unCheckedChildren="气象风"
+            />
           </InputGroup.Addon>
           <Whisper
             placement="right"
