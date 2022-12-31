@@ -9,7 +9,7 @@ export default function Footer({ clickDisc }) {
       </div>{" "}
       <Divider vertical />
       <div>
-        Powered By <a href="http://lrvinye.cn" target="_blank">Lrvinye</a>
+        Powered By <a href="https://www.riccox.com" target="_blank">Ricco Xie</a>
       </div>
       <Divider vertical />
       <div>
